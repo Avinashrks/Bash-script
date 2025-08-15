@@ -1,0 +1,102 @@
+#!/bin/bash
+
+cat << abc
+
+" Welcome to File & Folder Management Please select a valid option"
+Please select 1 to run Script to create a backup of a directory.
+Please select 2 to run Script to rename all files in a folder (e.g., add a prefix or change extension).
+Please select 3 to run Script to count files and directories in a given path.
+Please select 4 to run Script to find and delete empty files or directories.
+abc
+read A
+
+case "$A" in
+1)
+  echo "You selected option 1: Create a backup of a directory."
+  echo "Please enter the directory path to move to backup:"
+  read dir_path
+  if [ -d "$dir_path" ]
+  then
+  cp -r "$dir_path"/* /opt/backup
+  echo " All file and folders copied please verify"
+  else
+  echo " please enter a valid path"
+  fi
+  ;;
+2) 
+echo "You selected option 1: Create a backup of a directory."
+  echo "Please enter the directory path to move to backup:"
+  read dir_path
+  if [ -d "$dir_path" ]
+  then
+  cd /opt/backup
+  folder=$(basename "$dir_path")
+  mkdir "$folder"
+  cd "$folder"
+  find "$dir_path" -mindepth 0 -type f | while read -r i
+    do
+    cp "$i" .
+    done
+  cd ..
+  cd ..
+  else
+  echo " Please enter valid directory "
+  fi
+  ;;
+3)
+  echo "You have selected 3 to run Script to rename all files in a folder"
+  echo "Please enter a folder"
+  read folder
+  if  [ -d "$folder" ]
+  then
+     find "$folder" -type f |  while read -r files
+    do
+        dirpath="$(dirname "$files")"
+	filename="$(basename "$files")"
+    
+	    mv "$files" "$dirpath/$(date --rfc-3339=date)$filename"
+    done
+  else
+  echo "please enter a valid folder"
+  fi
+  ;;
+4)
+  echo "Please select 3 to run Script to count files and directories in a given path."
+  echo "Please enter a folder"
+  read folder
+  if [ -d "$folder" ]
+  then 
+
+    find "$folder" -type d | while read -r flder
+    do
+      nof="$(find $flder -maxdepth 1 -type f | wc -l)"
+      nod="$(find $flder -maxdepth 1 -type d | wc -l)"
+      ((nod--))
+      if [ "$nod" -eq 0  ]
+      then 
+            echo "$flder has $nof files"
+      else
+         
+      echo "$flder has $nof files and $nod directories"
+      fi
+    done
+  else
+    echo "Please enter a valid folder"
+  fi
+  ;;
+
+*)
+  echo " Please check a valid option"
+  ;;
+
+
+
+
+
+
+
+
+
+
+
+esac

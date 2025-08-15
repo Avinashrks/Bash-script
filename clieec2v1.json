@@ -1,0 +1,7 @@
+aws ec2 run-instances \
+    --image-id ami-0f918f7e67a3323f0 \
+    --count 1 \
+    --instance-type t3.micro \
+    --key-name india \
+    --security-group-ids sg-06987cbefd14502a9 \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=LinuxformCLI},{Key=Environment,Value=Dev}]'
