@@ -1,0 +1,190 @@
+✅ Possible Outputs of systemctl is-enabled
+State	Meaning
+enabled	The service will start automatically at boot.
+disabled	The service will NOT start automatically at boot. You can still start it manually.
+static	The unit file doesn't have an [Install] section, so it can't be enabled or disabled. It's meant to be used as a dependency of other units.
+masked	The service is completely disabled, and cannot be started manually or automatically unless it's unmasked. Its unit file is symlinked to /dev/null.
+indirect	The service is enabled indirectly, typically as a dependency of another enabled unit.
+generated	A unit file is created dynamically, usually at runtime (e.g., via fstab, systemd-nspawn, or generator tools).
+transient	The service was created on-the-fly (not persistent), such as with systemd-run. It’s not saved on disk.
+
+
+
+
+
+
+# Start the service (does not survive reboot unless enabled)
+sudo systemctl start nginx
+
+# Stop the service
+sudo systemctl stop nginx
+
+# Restart the service
+sudo systemctl restart nginx
+
+# Reload configuration without dropping connections (if supported)
+sudo systemctl reload nginx
+
+# Check the current status
+sudo systemctl status nginx
+
+# Enable service to start on boot
+sudo systemctl enable nginx
+
+# Disable service from starting on boot
+sudo systemctl disable nginx
+
+# See if a service is enabled
+systemctl is-enabled nginx
+
+# List all active services
+systemctl list-units --type=service
+
+
+systemctl list-units --type=service --all --no-pager --no-legend | awk '{print $1}'
+
+
+
+✅ 1. systemctl list-units --type=service --state=running
+This command lists only services that are actively running right now.
+
+Filters for services (--type=service)
+
+Filters for --state=running (services that are currently executing)
+
+🔍 Example use case: You want to know what’s actively running in memory at the moment.
+
+✅ 2. systemctl list-units --type=service
+This command lists all currently active services, including services in these states:
+
+running — actively executing
+
+exited — started and completed (but still considered active)
+
+waiting, listening, etc. — depending on the service type
+
+It does not show inactive or dead services — only active ones.
+
+🔍 Example use case: You want to know all services that are currently loaded and active, regardless of whether they're continuously running or not.
+
+
+
+Task	Command
+All currently loaded + active services	systemctl list-units --type=service
+Only currently running services	systemctl list-units --type=service --state=running
+All loaded services (active + inactive)	systemctl list-units --type=service --all
+All service unit files (installed on disk)	systemctl list-unit-files --type=service
+
+
+
+
+
+📜 Common Service States (and How to List Them)
+Description	ACTIVE	SUB	Command
+✅ Running services	active	running	systemctl list-units --type=service --state=running
+✅ All active services (incl. exited, listening, etc.)	active	various	systemctl list-units --type=service
+❌ Inactive services	inactive	dead, etc.	systemctl list-units --type=service --state=inactive
+❌ All loaded services (active + inactive)	varies	varies	systemctl list-units --type=service --all
+🔥 Failed services	failed	failed	systemctl list-units --type=service --state=failed
+⚙️ Services in activating state (starting up)	activating	varies	systemctl list-units --type=service --state=activating
+🔄 Deactivating services (shutting down)	deactivating	varies	systemctl list-units --type=service --state=deactivating
+🔁 Reloading services (reconfiguring)	reloading	varies	systemctl list-units --type=service --state=reloading
+
+
+Flag	Purpose	Accepts	Example
+--type	Filters unit type	service, socket, timer, etc.	--type=service
+--state	Filters ACTIVE state	active, inactive, failed, etc.	--state=running
+grep	To filter SUB state manually	Any text in output	`
+
+
+🧾 What is journalctl?
+journalctl is the command-line tool used to view logs collected by systemd-journald, the system log service in modern Linux distributions 
+(like your EC2 if it's using systemd).
+
+Unlike old-style log files in /var/log/, journalctl gives you structured, searchable, and
+
+Check Logs with journalctl
+Systemd logs output from services into its own journal. This is how you can inspect Nginx logs:
+
+bash
+Copy
+Edit
+# Show all logs from nginx service
+sudo journalctl -u nginx
+
+# Show logs since boot
+sudo journalctl -u nginx -b
+
+# Show logs from today
+sudo journalctl -u nginx --since today
+
+# Follow logs (like tail -f)
+sudo journalctl -u nginx -f
+
+# Limit log entries
+sudo journalctl -u nginx -n 50  # Last 50 lines
+
+
+🛠 Useful Options
+Option	Description
+-u <unit>	Show logs for a service (e.g. nginx, sshd, docker)
+-b	Logs from current boot
+-f	Follow logs (like tail -f)
+--since, --until	Filter logs by time
+-p <level>	Filter by priority (e.g. err, warning, info)
+--no-pager	Show full output without less
+
+
+sudo systemctl daemon-reexec      # Reload systemd itself
+sudo systemctl daemon-reload      # Reload unit files
+sudo systemctl start hello.service
+sudo journalctl -u hello.service
+
+
+------------------------Networking----------------
+
+
+----------------------Firewall--------------------
+
+# Enable UFW
+sudo ufw enable
+
+# Check status
+sudo ufw status verbose
+
+# Allow a specific port (e.g. HTTP)
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Deny a port
+sudo ufw deny 8080
+
+# Delete a rule
+sudo ufw delete allow 8080
+
+# Allow by service name
+sudo ufw allow 'Nginx Full'  # Allows 80 and 443
+-----------------------------------------------------------
+
+ Check with ss (modern & fast)
+bash
+# List listening TCP ports
+sudo ss -tuln
+
+# Show listening and connected sockets with process info
+sudo ss -tulpn
+Breakdown of flags:
+
+-t: TCP
+-u: UDP
+-l: listening
+-n: numeric (don’t resolve names)
+-p: show process name/PID
+
+python3 -m http.server 8080
+
+sudo lsof -i :80     # Who's using port 80
+sudo lsof -iTCP -sTCP:LISTEN  # All listening TCP ports
+
+
+

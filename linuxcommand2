@@ -1,0 +1,22 @@
+****************
+sort
+
+get unique value
+uniq -u
+get duplicate value
+uniq -d 
+count all words
+uniq -c
+if not adject duplicate
+sort reading.txt | uniq
+*****************
+
+
+grep -o "s" <<<"$x" | wc-l
+grep -o "s" <<<"sadc"
+vim -r test.txt
+traceroute google.com
+tracepath  google.com
+Logrotate
+
+is bash dynamic or statically typed and why?

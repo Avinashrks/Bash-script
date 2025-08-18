@@ -1,0 +1,172 @@
+blank_lines=$(grep -c '^[[:space:]]*$' "$file")----That counts lines that are either empty or contain only spaces/tabs.
+echo */ --all sub dicrectories
+uname
+ls /root
+cat /root/filename
+echo "$j"* --all files and sub dicrectories
+
+ps - ef -- to list all the process.
+
+cd ../..
+***********************************************************
+Best pratices
+
+set -x -- debug mode
+set -e -- exist the script when there is an error
+set -o -- pipefaild error
+set -exo  pipefail
+
+************************************************************
+
+curl 
+
+wget --- to download the file
+
+
+************************************************************
+env
+echo $USER 
+echo $HOME
+************************************************************
+
+but for now know that the file descriptor for 
+stdin, stdout and stderr is 0, 1, and 2 respectively.
+
+he command sends both stdout and stderr from ls /fake/directory to peanuts.txt using 2>&1,
+because stderr is redirected to wherever stdout is pointing — in this case, a file.
+
+$ ls /fake/directory > peanuts.txt 2>&1
+
+There is a shorter way to redirect both stdout and stderr to a file:
+
+$ ls /fake/directory &> peanuts.txt
+
+I don't want any of that cruft and want to get rid of stderr messages completely
+$ ls /fake/directory 2> /dev/null
+
+************************************************************
+$ ls | tee peanuts.txt
+You should see the output of ls on your screen and if you open up the peanuts.txt file you should see the same information!
+************************************************************
+ls -l /usr/bin | grep bash
+wc -l file1
+3 file1
+wc -w file1
+11 file1
+find . -type d -exec sh -c 'echo "$1"' _ {} \;
+wc -w < file1
+11
+cat << abc 
+wc -w <<< "hello word count"
+sort -r 
+ls /etc | sort -rn
+sort < file.txt
+<	sort < file.txt        
+<<	cat << EOF ... EOF     echo $? ---- ex of last excuted command.
+<<<	grep "foo" <<< "foobar""${1,,}" ------ inrespective of lower and upper.
+herbert@DESKTOP-UFIA6QU :~ $ for item in ${MY_FIRST_LIST[@]}; do echo -n $it
+em | wc -c; done
+3
+3
+5
+4
+4
+**********************************************************************
+$ cut -c 5 sample.txt
+cut -f2 sample.txt
+cut -c 5-10 sample.txt
+cut -c 5- sample.txt
+$ cut -f1 -d ";" sample.txt
+
+cut -d: -f1 /etc/passwd
+paste -s new
+paste -d ' ' -s new
+
+sort
+**********************************************************************
+uptime -h
+When you install Ubuntu, the packages included in the ISO image might be outdated. Running:
+apt install sudo
+sudo apt update
+Updates the package list from repositories.
+Then, to install the latest versions of packages, run:
+sudo apt upgrade -y
+ls /home
+sudo su -
+cd /
+cd /opt
+head -n 15 /var/log/syslog
+mkdir custom-tool
+useradd Avi
+passwd
+userdel Avi
+cat /etc/passwd -- user
+cat /etc/shadow -- password
+adduser avi
+su - avis ----- switch user
+whoami
+rm -rf/sbin --- delete file
+groupadd devops
+cat /etc/group
+usermod -aG devops avis
+cd ..  --prev
+pwd
+mkdir avi -- make directory 
+rmdir avi --- avis  delete
+touch avis --- to make a file
+ls - ltr
+--d starting directory else file
+rm avis -- to delete filr 
+rm -rf avi/ --- delete directory
+cp avis avisi --- create copy a file
+mv avis avisi ---- rename file
+vim avisi ----- to edit the file
+less file.txt
+less q to come out
+tail -20 file.txt
+head -5 file.txt
+echo 'i am robot' > file.txt  -----overide the file
+echo 'i am avinash >> file.txt --- to wite to exsisting file 
+chmod u=wrx hello.sh ---user
+chmod o=wrx hello.sh --- other user
+chown qe:eq test.sh
+ps
+ps -aux
+ps aux | ln line numbers
+ps aux | wc -l
+ps -ef no memory utlization
+kill pid
+ps aux | grep java
+ps aux | grep java |grep -v grep
+kill -9 Pid
+kill -STOP 7165
+kill -CONT 
+process and services
+top
+htop
+vmstat
+free -m
+free -h
+nproc -- cpu count
+df -h disk
+lsblk
+sudo fdisk -l
+When you install Ubuntu, the packages included in the ISO image might be outdated. Running:
+apt install sudo
+sudo apt update
+Updates the package list from repositories.
+Then, to install the latest versions of packages, run:
+sudo apt upgrade -y
+delete
+****************************
+to translate or delete chars
+tr a-z A-Z
+tr -d ello
+
+******************************
+find /opt -mindepth 1 -delete
+find 
+find . -type f ! -name "*.*"
+find . -type f ! -name "*.*" -exec echo 'found' {} \;
+find . -type f -exec bash -c 'mv "$0" "$0.txt"' {} \;
+find . -type f ! -name "*.*" -execdir bash -c 'mv "$1" "$1.txt"' _ {} \;
