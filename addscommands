@@ -1,0 +1,477 @@
+
+
+
+Ls
+Ls -a - all file inculding stating with .
+Ls -l long view
+Ls -la 
+Ls -ltr t - mod date time desc 
+Ls -ltR - recusive harichecy
+Ls -la 
+Ls -1
+
+Wc -l ---- count
+
+Ls /root
+What is rm -rf?
+rm — remove files or directories
+-r — recursive: delete directories and their contents recursively
+-f — force: ignore nonexistent files and do not prompt for confirmation
+
+mkdir -p --to avoid errors if folders already exist.
+
+CP
+
+cp -r Pumpkin/ /home/pete/Documents
+
+cp *.jpg /home/pete/Pictures
+
+cp -i mycoolfile /home/pete/Pictures
+
+
+Help echo
+
+Whatis cat
+
+ls -lhtr
+
+alias
+ bash -c 'echo "hello bash is working"'
+
+Stat filename ---- details about file 
+
+Echo 
+\n	New line
+\t	Tab
+
+
+• /opt/* — deletes all visible files and directories inside /opt.
+• /opt/.[!.]* — deletes hidden files and directories (those starting with a dot, except . and ..).
+
+
+History
+
+
+
+
+
+Purpose	Command
+Compare two files	diff file1.txt file2.txt
+Unified format (patch/git)	diff -u file1.txt file2.txt
+Side-by-side comparison	diff -y file1.txt file2.txt
+Ignore whitespace/case	diff -i -w file1.txt file2.txt
+
+
+
+📋 diff Commands Summary
+ 
+diff file1.txt file2.txt
+🔹 Standard line-by-line difference (default format)
+
+ 
+diff -u file1.txt file2.txt
+🔹 Unified format (used in Git and patch files)
+
+ 
+diff -c file1.txt file2.txt
+🔹 Context format with more surrounding lines
+
+ 
+diff -y file1.txt file2.txt
+🔹 Side-by-side comparison of files
+
+ 
+diff -y --suppress-common-lines file1.txt file2.txt
+🔹 Side-by-side view showing only differences
+
+ 
+diff -q file1.txt file2.txt
+🔹 Brief output — says only if files differ
+
+ 
+diff --report-identical-files file1.txt file2.txt
+🔹 Reports whether files are identical
+
+ 
+diff dir1/ dir2/
+🔹 Compares contents of two directories
+
+ 
+diff -i file1.txt file2.txt
+🔹 Ignores case differences (e.g., Hello vs hello)
+
+ 
+diff -w file1.txt file2.txt
+🔹 Ignores all whitespace (spaces, tabs)
+
+ 
+diff -b file1.txt file2.txt
+🔹 Ignores changes in amount of whitespace
+
+ 
+diff -B file1.txt file2.txt
+🔹 Ignores blank (empty) lines
+
+ 
+diff -u file1.txt file2.txt > changes.patch
+🔹 Saves unified diff to a patch file
+
+ 
+patch file1.txt < changes.patch
+🔹 Applies a patch to modify file1
+
+ 
+patch -R file1.txt < changes.patch
+🔹 Reverses a patch (undo changes)
+
+
+patch --dry-run code < codes.patch
+
+
+
+
+
+
+Find command
+
+
+Find files by name (case-sensitive)
+ 
+find /path/to/search -name "filename"
+Search for files named exactly filename.
+
+2. Find files by name (case-insensitive)
+ 
+find /path/to/search -iname "filename"
+3. Find files by type
+Regular files:
+
+ 
+find /path -type f
+Directories:
+
+ 
+find /path -type d
+Symbolic links:
+
+ 
+find /path -type l
+4. Find files by size
+Larger than 10 MB:
+
+ 
+find /path -size +10M
+Smaller than 100 KB:
+
+ 
+find /path -size -100k
+Exactly 1 KB:
+
+ 
+find /path -size 1k
+5. Find files by modification time
+Modified in last 7 days:
+
+ 
+find /path -mtime -7
+Modified more than 30 days ago:
+
+ 
+find /path -mtime +30
+6. Find files by access time
+Accessed in last 10 days:
+
+ 
+find /path -atime -10
+7. Find files by user or group
+Owned by user john:
+
+ 
+find /path -user john
+Owned by group developers:
+
+ 
+find /path -group developers
+8. Find files by permissions
+Files writable by owner:
+
+ 
+find /path -perm -u=w
+Files with exact permission 644:
+
+ 
+find /path -perm 644
+Files with any execute bit set:
+
+ 
+find /path -perm /111
+9. Find empty files or directories
+Empty files:
+
+ 
+find /path -type f -empty
+Empty directories:
+
+ 
+find /path -type d -empty
+10. Find files and run commands on them
+Delete .log files:
+
+ 
+find /path -name "*.log" -exec rm {} \;
+List details using ls:
+
+ 
+find /path -type f -exec ls -l {} \;
+Execute multiple commands:
+
+ 
+find /path -name "*.tmp" -exec bash -c 'echo Deleting {}; rm "$0"' {} \;
+11. Find files newer or older than another file
+Files newer than reference.txt:
+
+ 
+find /path -newer reference.txt
+Files not newer than reference.txt:
+
+ 
+find /path ! -newer reference.txt
+12. Find files by number of links
+Files with exactly 1 hard link:
+
+ 
+find /path -links 1
+13. Limit search depth
+Max depth 2:
+
+ 
+find /path -maxdepth 2 -name "*.txt"
+Min depth 1 (ignore top directory):
+
+ 
+find /path -mindepth 1 -name "*.txt"
+14. Combine expressions
+Find .sh or .bash files:
+
+ 
+find /path \( -name "*.sh" -o -name "*.bash" \)
+Find files modified in last 7 days AND owned by user john:
+
+ 
+find /path -mtime -7 -user john
+15. Print only file names
+ 
+find /path -type f -print
+
+find /opt -type f -empty
+
+GREP
+# Create a text file with all content from the chat session
+chat_content = """
+GREP COMMANDS:
+
+1. Basic grep
+grep "pattern" filename
+Example: grep "error" server.log
+
+2. Case-insensitive (-i)
+grep -i "error" server.log
+
+3. Recursive Search (-r or -R)
+grep -r "TODO" ~/projects/
+
+4. Line Numbers (-n)
+grep -n "main" program.c
+
+5. Count Matches (-c)
+grep -c "404" access.log
+
+6. Invert Match (-v)
+grep -v "success" result.txt
+
+7. Whole Word Match (-w)
+grep -w "cat" animals.txt
+
+8. Whole Line Match (-x)
+grep -x "pass" test_results.txt
+
+9. Only Match Part (-o)
+grep -o "[0-9]\\+" numbers.txt
+
+10. Extended Regex (-E)
+grep -E "cat|dog" pets.txt
+
+11. Print Before Match (-B)
+grep -B 2 "failed" log.txt
+
+12. Print After Match (-A)
+grep -A 3 "ERROR" logfile.txt
+
+13. Print Before and After (-C)
+grep -C 1 "login" auth.log
+
+14. Pipe Output to Grep
+ps aux | grep apache
+
+15. Suppress Filename (-h)
+grep -h "TODO" *.txt
+
+16. Show Matching Filenames (-l)
+grep -l "main" *.c
+
+17. Show Non-Matching Filenames (-L)
+grep -L "main" *.c
+
+18. Quiet Mode (-q)
+grep -q "root" /etc/passwd && echo "User exists"
+
+19. Pattern File (-f)
+grep -f patterns.txt input.txt
+
+20. Binary Files as Text
+grep --binary-files=text "hello" file.bin
+
+21. Color Output
+grep --color=auto "error" logfile.log
+
+---
+
+FIND VS GREP:
+
+find = Search files & directories
+grep = Search inside file content
+
+Examples:
+find . -name "*.txt" -exec grep "important" {} \;
+dmesg | grep usb
+
+---
+
+EXPLANATION:
+
+1. dmesg | grep usb
+- dmesg shows kernel messages
+- grep usb filters only USB-related messages
+
+2. find . -name "*.txt" -exec grep "important" {} \;
+- finds all .txt files
+- grep searches "important" in each file
+
+---
+
+FIND -EXEC EXAMPLES:
+
+1. Delete .tmp files:
+find . -name "*.tmp" -exec rm {} \;
+
+2. Make scripts executable:
+find . -name "*.sh" -exec chmod +x {} \;
+
+3. Move logs:
+find . -name "*.log" -exec mv {} /backup/logs/ \;
+
+4. Search inside files:
+find . -name "*.txt" -exec grep "password" {} \;
+
+5. Detailed list:
+find /var/log -name "*.log" -exec ls -lh {} \;
+
+6. Add to archive:
+find . -name "*.csv" -exec tar -rvf data.tar {} \;
+
+7. Line count:
+find . -name "*.txt" -exec wc -l {} \;
+
+8. Open HTML in browser:
+find . -name "*.html" -exec firefox {} \;
+
+9. Compress:
+find . -name "*.log" -exec gzip {} \;
+
+10. Delete old files:
+find /tmp -type f -mtime +30 -exec rm {} \;
+
+Performance Tip:
+Use + instead of \; to pass multiple files at once:
+find . -name "*.txt" -exec grep "hello" {} +
+"""
+
+# Save to a text file
+file_path = "/mnt/data/grep_find_examples.txt"
+with open(file_path, "w") as file:
+file.write(chat_content)
+
+file_path
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Read
+
+
+root@ip-172-31-47-209:/opt# cat s.sh
+#!/bin/bash
+
+echo 'enter two number'
+
+read a
+read b
+
+z=$(expr $a + $b)
+
+echo $z
+echo $0
+echo $1
+echo $2
+
+
+
+We will discuss conditional statements or constructs available in shell.
+	• test command used for evaluating the shell script condition
+	• It evaluates the condition on its right and returns a true or false exit status
+	• The return value is used by the construct for further execution
+	• In place of writing test explicitly, the user could also use [ ]
+ 
+Operators used with test for evaluating numeral data are
+
+	1.   -eq  -> Equal To
+	2.   -lt    -> Less than 
+	3.   -gt  -> Greater than
+	4.   -ge -> Greater than or equal to
+	5.   -le  -> Less than or equal to
+ 
+Operators used with test for evaluating string data are
+
+	1. str1 = str2  -> True if both equals
+	2. str1 != str2 -> True if not equals
+	3. -n str1  -> True if str1 is not a null string
+	4. -z str1 -> True if str1 is a null string
+	5. 
+	6. 
+ 
+Operators used with test for evaluating file data are
+
+	1. -f file1 -> True if file1 exists and is a regular file
+	2. -d file1 -> True if file1 exists and is directory
+	3. -s file1 -> True if file1 exists and has size greater than 0
+	4. -r file1  -> True if file1 exists and is readable
+	5. -w file1 -> True if file1 exists and is writable
+	6. -x file1 -> True if file1 exists and is executable.
+ 
+Logical Operators used with test are  
+
+	1. !  -> Negates the expression
+	2. 
+	3. -a -> Binary ‘and’ operator
+	4. 
+	5. -o -> Binary ‘or’ operator
