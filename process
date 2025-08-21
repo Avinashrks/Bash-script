@@ -1,0 +1,121 @@
+Syntax:
+
+
+ps -l — Long Format for Current Shell
+Shows processes related to the current terminal session.
+Output includes detailed info like:
+F: Flags
+UID: User ID
+PID: Process ID
+PPID: Parent Process ID
+PRI: Priority
+NI: Nice value
+ADDR: Memory address
+SZ: Size
+WCHAN: Waiting channel
+TTY: Terminal
+TIME: CPU time
+CMD: Command
+📌 Use case: Good for debugging or checking jobs started in the current shell.
+
+🌐 ps -ef — Full Format for All Processes
+Shows all running processes on the system.
+Output includes:
+UID: User
+PID: Process ID
+PPID: Parent PID
+C: CPU usage
+STIME: Start time
+TTY: Terminal
+TIME: CPU time
+CMD: Command
+📌 Use case: Ideal for system-wide process monitoring, scripting, and automation.
+
+ps -aux
+Lists all running processes on the system.
+Combines BSD-style (aux) options:
+a: Show processes for all users.
+u: Display user-oriented format (includes user, CPU/mem usage).
+x: Include processes not attached to a terminal.
+🧾 Output Columns:
+
+USER
+PID
+%CPU
+%MEM
+VSZ (virtual memory size)
+RSS (resident memory size)
+TTY
+STAT (process state)
+START
+TIME
+COMMAND
+
+
+
+
+Command	Scope	            Format Style	Shows Resource Usage	Includes All Users
+ps -l	Current shell only	Long format	              No	         No
+ps -ef	All processes	    UNIX style	              No	         Yes
+ps -aux	All processes	    BSD style	              Yes	         Yes
+
+
+
+
+ps [OPTIONS]
+
+ps - Shows the process of current shell
+
+PID - unique process ID
+TTY - terminal type of user logged in to
+TIME - amount of CPU in min and sec that process has been
+running
+CMD = name of the command that launched the process
+
+ps -e
+ps -ef --detailed form
+ps aux --- more detialed form
+ps -u  ---which user  running the process
+ps -G  ---which group running the process.
+ps -ejH
+
+
+
+****************************************************************************************************************
+We discussed how there is a TTY field in the ps output. The TTY is the terminal that executed the command.
+
+There are two types of terminals: regular terminal devices and pseudoterminal devices.
+ A regular terminal device is a native terminal device that you can type into and send output to your system. 
+ This sounds like the terminal application you've been launching to get to your shell, but it's not.
+ 
+****************************************************************************************************************
+
+jobs - Will show active jobs.
+bg - Resume jobs to the background.
+fg - Resume job to the foreground.
+
+example
+
+sleep 10s
+ctrl+z
+jobs
+bg %jobid
+fg %jobid
+
+
+nice
+
+
+ps -ef
+ps -l pid
+nice -n -10 /opt/script21.sh
+
+nohup
+
+If you want your process keep running even after closing your
+terminal, you can use nohup
+
+nohup process &
+nohup process > /dev/null 2>&1 &
+
+
