@@ -72,6 +72,10 @@ em | wc -c; done
 4
 4
 **********************************************************************
+🔹 cut command in Linux
+cut is used to extract sections of lines from text files or streams.
+It works with bytes (-b), characters (-c), or fields (-f).
+
 $ cut -c 5 sample.txt
 cut -f2 sample.txt
 cut -c 5-10 sample.txt
