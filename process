@@ -1,5 +1,12 @@
 Syntax:
 
+See processes → ps, top, htop, pgrep, pidof
+Manage processes → kill, killall, pkill, fg, bg, jobs
+Monitor resources → free, vmstat, iostat, uptime
+Schedule jobs → at, cron
+Priorities → nice, renice
+Debugging → lsof, strace, pstree
+Services → systemctl
 
 ps -l — Long Format for Current Shell
 Shows processes related to the current terminal session.
@@ -59,7 +66,17 @@ ps -l	Current shell only	Long format	              No	         No
 ps -ef	All processes	    UNIX style	              No	         Yes
 ps -aux	All processes	    BSD style	              Yes	         Yes
 
+pgrep – Find process by name
+pgrep ssh      # Get PID of ssh process
+pgrep -u user  # Get processes of a user
 
+pidof – Get PID of a process
+pidof sshd
+
+List some process 
+pgrep -u root | xargs ps -fp
+ps -fp $(pgrep -u root)
+ps -u avi | grep pstest | awk '{print $1}'
 
 
 ps [OPTIONS]
@@ -77,9 +94,14 @@ ps -ef --detailed form
 ps aux --- more detialed form
 ps -u  ---which user  running the process
 ps -G  ---which group running the process.
+
+pstree – Show process hierarchy
 ps -ejH
+pstree
 
-
+pgrep – Find process by name
+pgrep ssh      # Get PID of ssh process
+pgrep -u user  # Get processes of a user
 
 ****************************************************************************************************************
 We discussed how there is a TTY field in the ps output. The TTY is the terminal that executed the command.
@@ -94,6 +116,13 @@ jobs - Will show active jobs.
 bg - Resume jobs to the background.
 fg - Resume job to the foreground.
 
+Command	When Used	Behavior
+&	At process start	Starts a command directly in background
+fg / bg	After process is running/suspended	Switches an existing job between foreground and background
+
+& – Run process in background
+./longtask.sh &
+
 example
 
 sleep 10s
@@ -102,20 +131,93 @@ jobs
 bg %jobid
 fg %jobid
 
-
 nice
-
-
 ps -ef
 ps -l pid
 nice -n -10 /opt/script21.sh
 
-nohup
+kill – Terminate a process
+kill -9 1234    # Kill process with PID 1234 (forcefully)
+kill -15 1234   # Kill gracefully (default)
 
+killall – Kill process by name
+killall firefox   # Kill all firefox processes
+
+pkill – Kill by name/user
+pkill -u user      # Kill all processes of user
+pkill -9 nginx     # Force kill nginx
+            user process
+pkill -9 -u avi pstest.sh
+
+How to Prevent a Process from Dying on SIGHUP
+nohup command & → ignores SIGHUP.
+disown -h %job → detach job from terminal.
+setsid command & → start process in new session, immune to SIGHUP.
+tmux / screen → keep terminal session alive.
+
+
+nohup
 If you want your process keep running even after closing your
 terminal, you can use nohup
 
 nohup process &
 nohup process > /dev/null 2>&1 &
 
+at – Schedule a command once
+at 5pm
+> echo "Backup done" >> /tmp/log.txt
+> <Ctrl+D>
+Schedule → at 5pm
+
+List → atq
+Inspect → at -c job_id
+Delete → atrm job_id
+
+
+1. nohup (No Hang Up)
+
+👉 nohup runs a command immune to SIGHUP (so it won’t die if you log out or close the terminal).
+By default, it redirects output to nohup.out.
+1.1 Basic usage
+nohup ./script.sh &
+Runs script.sh in background.
+Output goes to nohup.out.
+Survives logout.
+1.2 Custom output redirection
+nohup ./script.sh > mylog.txt 2>&1 &
+Output and errors go to mylog.txt.
+1.3 Run with nice (lower priority)
+nohup nice -n 10 ./heavyjob.sh > out.log 2>&1 &
+Runs with lower CPU priority and ignores hangup.
+1.4 Run without creating nohup.out
+nohup ./script.sh >/dev/null 2>&1 &
+No output file created, everything discarded.
+1.5 Using setsid with nohup
+setsid nohup ./server.sh >/dev/null 2>&1 &
+
+Double protection: detached session (setsid) + ignore hangup (nohup).
+🔹 2. disown (Shell job management)
+👉 disown is a shell builtin (Bash/Zsh) that removes jobs from the shell’s job table.
+Useful for processes already started in this shell.
+2.1 Disown a specific job
+./script.sh &
+jobs
+# [1]+  Running  ./script.sh &
+disown %1
+Removes job %1 from job list.
+Process keeps running but won’t appear in jobs.
+2.2 Disown and protect from SIGHUP
+disown -h %1
+Removes from jobs and ignores SIGHUP.
+2.3 Disown all jobs
+disown -a
+Removes all jobs from the shell’s job table.
+2.4 Disown all jobs and protect from SIGHUP
+disown -ah
+Detaches all jobs and shields them from SIGHUP.
+2.5 Disown a stopped job (after Ctrl+Z)
+./script.sh
+# Press Ctrl+Z to suspend
+bg %1          # resume in background
+disown -h %1   # protect from SIGHUP
 
