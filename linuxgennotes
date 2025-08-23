@@ -1,0 +1,15 @@
+Jobs Vs processes
+
+. Relationship
+All jobs are processes (from kernel’s view).
+But not all processes are jobs (because your shell only tracks jobs it started).
+For example:
+A system service (systemd, sshd) = process (no job, since it’s not tied to your shell).
+A script you started = process + job (if run from shell with job control).
+
+
+Definition of SIGHUP
+
+Name: SIGHUP = Signal Hang Up (signal number 1).
+
+Meaning: A signal sent to a process when its controlling terminal is closed or the parent shell exits.
