@@ -221,3 +221,47 @@ Detaches all jobs and shields them from SIGHUP.
 bg %1          # resume in background
 disown -h %1   # protect from SIGHUP
 
+1. nohup
+What it does: Runs a command immune to SIGHUP (hangup) — so if you close the terminal, the process keeps running.
+Default behavior: Redirects stdout/stderr to nohup.out if not specified.
+Example:
+nohup python3 myscript.py > output.log 2>&1 &
+Runs in background (&), ignores hangups, logs output to output.log.
+✅ Use when: You just want a process to survive logout, don’t care about reconnecting to it later.
+2. disown
+What it does: Removes a job from the shell’s job table. After this, the process won’t receive SIGHUP when you close the terminal.
+Example:
+long_running_task &
+disown
+First starts the job in background.
+Then disown detaches it from your shell.
+✅ Use when: You already started a process and want to “free” it from your shell without restarting.
+3. setsid
+What it does: Starts a program in a new session, fully detached from the controlling terminal.
+Example:
+setsid ./server.sh > server.log 2>&1 &
+Runs as its own session leader, immune to hangups.
+✅ Use when: You want a process completely detached (no job control, no need to disown, no output clutter).
+4. tmux
+What it does: Terminal multiplexer — lets you create detachable terminal sessions. You can disconnect and reconnect later.
+Example:
+tmux new -s mysession
+# run your process
+# then detach with: Ctrl+b d
+tmux attach -t mysession
+✅ Use when: You want to resume interactive sessions later (best for SSH, remote servers, or long-running scripts you want to monitor).
+5. screen
+What it does: Similar to tmux, but older. Also allows detachable terminal sessions.
+Example:
+screen -S mysession
+# run process
+# detach: Ctrl+a d
+screen -r mysession
+✅ Use when: You don’t have tmux installed but need detachable sessions. (Many prefer tmux nowadays because it’s more modern and flexible.)
+🔑 Quick Comparison Table
+Command	Keeps running after logout?	Reattach/Resume?	Typical Use Case
+nohup	✅ Yes	❌ No	Quick background task that must survive logout
+disown	✅ Yes	❌ No	Free already started job from shell
+setsid	✅ Yes	❌ No	Fully detached daemon-style processes
+tmux	✅ Yes	✅ Yes	Interactive sessions you want to resume later
+screen	✅ Yes	✅ Yes	Same as tmux, but older alternative
