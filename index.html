@@ -1,0 +1,16 @@
+#!/bin/bash
+
+sudo apt update
+sudo cd /
+
+cat << abc > index.html
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Hello From Server 1</h1>
+</body>
+</html>
+
+abc
+
+sudo python3 -m http.server 80
