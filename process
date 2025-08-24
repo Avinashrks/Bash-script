@@ -265,3 +265,20 @@ disown	✅ Yes	❌ No	Free already started job from shell
 setsid	✅ Yes	❌ No	Fully detached daemon-style processes
 tmux	✅ Yes	✅ Yes	Interactive sessions you want to resume later
 screen	✅ Yes	✅ Yes	Same as tmux, but older alternative
+
+🔍 1. strace
+What it does: Traces system calls and signals made by a program.
+A "system call" is when a program asks the kernel for something (e.g., open a file, read/write, fork, exec, network I/O).
+strace ls
+
+2. ltrace
+What it does: Traces library function calls made by a program (mainly dynamic libraries like libc.so).
+Example: malloc, printf, strcpy, fopen, etc.
+ltrace ls
+
+
+Difference vs Related Commands
+Command	Purpose
+nice	Start a new process with a given nice value.
+renice	Change the priority of an already running process.
+psnice	A simpler wrapper to view/change nice values (uses renice internally).
